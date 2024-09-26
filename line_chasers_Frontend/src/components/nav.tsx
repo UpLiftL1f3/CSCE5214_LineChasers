@@ -1,8 +1,8 @@
 export default function Nav() {
     return (
-        <div className="bg-cyan-400">
+        <div className="w-full bg-[#036fc4]">
             <div className="flex-center">
-                <h1 className="text-[100px] ">Line Chasers</h1>
+                <h1 className="text-[100px] text-white">Line Chasers</h1>
             </div>
         </div>
     );
