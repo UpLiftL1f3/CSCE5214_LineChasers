@@ -1,3 +1,4 @@
+import React from "react";
 import Nav from "../components/nav";
 import ShowRow from "../components/showRow";
 
