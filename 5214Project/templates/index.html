@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Line Chasers</title>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="main-header">
+        <h1 style="font-size:48px;text-shadow:1px 1px 1px #000; text-align:center">Line Chasers</h1>
+
+
+    </header>
+    <select id="myDropdown" style="width: 300px;  padding: 10px;
+            font-size: 18px;
+            margin-left: 40%;
+            text-align:center;
+            border-radius: 8px;
+            justify-content: center;
+            background-color: #f0f0f0;
+            border: 2px solid #ccc;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer; "></select>
+    <button id="submitButton" style=" padding: 15px 30px;
+            font-size: 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;">Submit</button>
+ <!-- Output will be displayed here -->
+    <div id="output" style="margin-top: 20px; margin-left: 40%; font-size: 88px;"></div>
+    <script>
+        // List of objects as provided
+        const data = [
+           {'last_price': 4017.4, 'mid': 4016.9, 'opened_position_qty': 0.0, 'closed_position_qty': 2.0, 'transacted_qty': 2.0, 'd_open_interest': -1, 'bid1': 4016.8, 'bid2': 4016.6, 'bid3': 4016.2, 'bid4': 4016.0, 'bid5': 4015.8, 'ask1': 4017.0, 'ask2': 4017.6, 'ask3': 4017.8, 'ask4': 4018.0, 'ask5': 4018.2, 'bid1vol': 2, 'bid2vol': 2, 'bid3vol': 3, 'bid4vol': 1, 'bid5vol': 1, 'ask1vol': 1, 'ask2vol': 1, 'ask3vol': 5, 'ask4vol': 15, 'ask5vol': 1, 'open_close_ratio': 0.0, 'mid_last_diff': -0.5, 'bid_ask_vol_ratio': 0.39130433081285515},
+                    {'last_price': 4016.8, 'mid': 4016.8, 'opened_position_qty': 1.0, 'closed_position_qty': 1.0, 'transacted_qty': 2.0, 'd_open_interest': 1, 'bid1': 4016.6, 'bid2': 4016.2, 'bid3': 4016.0, 'bid4': 4015.8, 'bid5': 4015.6, 'ask1': 4017.0, 'ask2': 4017.6, 'ask3': 4017.8, 'ask4': 4018.0, 'ask5': 4018.2, 'bid1vol': 2, 'bid2vol': 3, 'bid3vol': 1, 'bid4vol': 1, 'bid5vol': 6, 'ask1vol': 1, 'ask2vol': 1, 'ask3vol': 5, 'ask4vol': 15, 'ask5vol': 1, 'open_close_ratio': 0.9999990000010001, 'mid_last_diff': 0.0, 'bid_ask_vol_ratio': 0.5652173667296797},
+                    {'last_price': 4017.0, 'mid': 4016.9, 'opened_position_qty': 2.0, 'closed_position_qty': 1.0, 'transacted_qty': 3.0, 'd_open_interest': 1, 'bid1': 4016.2, 'bid2': 4016.0, 'bid3': 4015.8, 'bid4': 4015.6, 'bid5': 4015.4, 'ask1': 4017.6, 'ask2': 4017.8, 'ask3': 4018.0, 'ask4': 4018.2, 'ask5': 4018.4, 'bid1vol': 3, 'bid2vol': 2, 'bid3vol': 1, 'bid4vol': 6, 'bid5vol': 7, 'ask1vol': 1, 'ask2vol': 5, 'ask3vol': 15, 'ask4vol': 1, 'ask5vol': 3, 'open_close_ratio': 1.9999980000020001, 'mid_last_diff': -0.09999999999990905, 'bid_ask_vol_ratio': 0.7599999696000012},
+                    {'last_price': 4017.2, 'mid': 4017.2, 'opened_position_qty': 0.0, 'closed_position_qty': 1.0, 'transacted_qty': 1.0, 'd_open_interest': 0, 'bid1': 4017.0, 'bid2': 4016.4, 'bid3': 4016.2, 'bid4': 4016.0, 'bid5': 4015.8, 'ask1': 4017.4, 'ask2': 4017.6, 'ask3': 4017.8, 'ask4': 4018.0, 'ask5': 4018.2, 'bid1vol': 1, 'bid2vol': 4, 'bid3vol': 5, 'bid4vol': 2, 'bid5vol': 1, 'ask1vol': 13, 'ask2vol': 5, 'ask3vol': 5, 'ask4vol': 15, 'ask5vol': 1, 'open_close_ratio': 0.0, 'mid_last_diff': 0.0, 'bid_ask_vol_ratio': 0.33333332478632505},
+                    {'last_price': 4017.2, 'mid': 4016.9, 'opened_position_qty': 1.0, 'closed_position_qty': 1.0, 'transacted_qty': 2.0, 'd_open_interest': 1, 'bid1': 4016.4, 'bid2': 4016.2, 'bid3': 4016.0, 'bid4': 4015.8, 'bid5': 4015.6, 'ask1': 4017.4, 'ask2': 4017.6, 'ask3': 4017.8, 'ask4': 4018.0, 'ask5': 4018.2, 'bid1vol': 3, 'bid2vol': 3, 'bid3vol': 2, 'bid4vol': 1, 'bid5vol': 6, 'ask1vol': 9, 'ask2vol': 2, 'ask3vol': 5, 'ask4vol': 15, 'ask5vol': 1, 'open_close_ratio': 0.9999990000010001, 'mid_last_diff': -0.29999999999972715, 'bid_ask_vol_ratio': 0.468749985351563},
+                    {'last_price': 4017.4, 'mid': 4016.9, 'opened_position_qty': 1.0, 'closed_position_qty': 0.0, 'transacted_qty': 1.0, 'd_open_interest': 1, 'bid1': 4016.6, 'bid2': 4016.4, 'bid3': 4016.2, 'bid4': 4016.0, 'bid5': 4015.8, 'ask1': 4017.2, 'ask2': 4017.6, 'ask3': 4017.8, 'ask4': 4018.0, 'ask5': 4018.2, 'bid1vol': 3, 'bid2vol': 4, 'bid3vol': 3, 'bid4vol': 2, 'bid5vol': 1, 'ask1vol': 1, 'ask2vol': 2, 'ask3vol': 5, 'ask4vol': 15, 'ask5vol': 1, 'open_close_ratio': 1000000.0, 'mid_last_diff': -0.5, 'bid_ask_vol_ratio': 0.5416666440972231},
+                    {'last_price': 4017.2, 'mid': 4016.9, 'opened_position_qty': 0.0, 'closed_position_qty': 1.0, 'transacted_qty': 1.0, 'd_open_interest': 0, 'bid1': 4016.8, 'bid2': 4016.6, 'bid3': 4016.4, 'bid4': 4016.2, 'bid5': 4016.0, 'ask1': 4017.0, 'ask2': 4017.6, 'ask3': 4017.8, 'ask4': 4018.0, 'ask5': 4018.2, 'bid1vol': 2, 'bid2vol': 4, 'bid3vol': 2, 'bid4vol': 3, 'bid5vol': 2, 'ask1vol': 1, 'ask2vol': 2, 'ask3vol': 5, 'ask4vol': 15, 'ask5vol': 1, 'open_close_ratio': 0.0, 'mid_last_diff': -0.29999999999972715, 'bid_ask_vol_ratio': 0.5416666440972231},
+                    {'last_price': 4017.0, 'mid': 4017.2, 'opened_position_qty': 0.0, 'closed_position_qty': 1.0, 'transacted_qty': 1.0, 'd_open_interest': 0, 'bid1': 4016.8, 'bid2': 4016.6, 'bid3': 4016.4, 'bid4': 4016.2, 'bid5': 4016.0, 'ask1': 4017.6, 'ask2': 4017.8, 'ask3': 4018.0, 'ask4': 4018.2, 'ask5': 4018.4, 'bid1vol': 2, 'bid2vol': 3, 'bid3vol': 1, 'bid4vol': 3, 'bid5vol': 2, 'ask1vol': 2, 'ask2vol': 5, 'ask3vol': 15, 'ask4vol': 1, 'ask5vol': 3, 'open_close_ratio': 0.0, 'mid_last_diff': 0.1999999999998181, 'bid_ask_vol_ratio': 0.4230769068047343},
+                    {'last_price': 4017.0, 'mid': 4017.3, 'opened_position_qty': 0.0, 'closed_position_qty': 0.0, 'transacted_qty': 0.0, 'd_open_interest': 0, 'bid1': 4017.2, 'bid2': 4016.8, 'bid3': 4016.6, 'bid4': 4016.4, 'bid5': 4016.2, 'ask1': 4017.4, 'ask2': 4017.6, 'ask3': 4017.8, 'ask4': 4018.0, 'ask5': 4018.2, 'bid1vol': 2, 'bid2vol': 2, 'bid3vol': 2, 'bid4vol': 1, 'bid5vol': 3, 'ask1vol': 2, 'ask2vol': 5, 'ask3vol': 5, 'ask4vol': 3, 'ask5vol': 1, 'open_close_ratio': 0.0, 'mid_last_diff': 0.3000000000001819, 'bid_ask_vol_ratio': 0.6249999609375024},
+                    {'last_price': 4017.0, 'mid': 4017.3, 'opened_position_qty': 0.0, 'closed_position_qty': 1.0, 'transacted_qty': 1.0, 'd_open_interest': 0, 'bid1': 4017.2, 'bid2': 4016.8, 'bid3': 4016.6, 'bid4': 4016.4, 'bid5': 4016.2, 'ask1': 4017.4, 'ask2': 4017.6, 'ask3': 4017.8, 'ask4': 4018.0, 'ask5': 4018.2, 'bid1vol': 1, 'bid2vol': 2, 'bid3vol': 2, 'bid4vol': 1, 'bid5vol': 3, 'ask1vol': 1, 'ask2vol': 5, 'ask3vol': 5, 'ask4vol': 3, 'ask5vol': 1, 'open_close_ratio': 0.0, 'mid_last_diff': 0.3000000000001819, 'bid_ask_vol_ratio': 0.5999999600000027},
+                    {'last_price': 4017.4, 'mid': 4017.4, 'opened_position_qty': 0.0, 'closed_position_qty': 1.0, 'transacted_qty': 1.0, 'd_open_interest': 0, 'bid1': 4017.2, 'bid2': 4016.8, 'bid3': 4016.6, 'bid4': 4016.4, 'bid5': 4016.2, 'ask1': 4017.6, 'ask2': 4017.8, 'ask3': 4018.0, 'ask4': 4018.2, 'ask5': 4018.4, 'bid1vol': 1, 'bid2vol': 2, 'bid3vol': 2, 'bid4vol': 1, 'bid5vol': 3, 'ask1vol': 3, 'ask2vol': 5, 'ask3vol': 3, 'ask4vol': 1, 'ask5vol': 3, 'open_close_ratio': 0.0, 'mid_last_diff': 0.0, 'bid_ask_vol_ratio': 0.5999999600000027},
+                    {'last_price': 4017.4, 'mid': 4017.5, 'opened_position_qty': 0.0, 'closed_position_qty': 0.0, 'transacted_qty': 0.0, 'd_open_interest': 0, 'bid1': 4017.4, 'bid2': 4017.2, 'bid3': 4016.8, 'bid4': 4016.6, 'bid5': 4016.4, 'ask1': 4017.6, 'ask2': 4017.8, 'ask3': 4018.0, 'ask4': 4018.2, 'ask5': 4018.4, 'bid1vol': 1, 'bid2vol': 1, 'bid3vol': 2, 'bid4vol': 2, 'bid5vol': 2, 'ask1vol': 2, 'ask2vol': 5, 'ask3vol': 3, 'ask4vol': 1, 'ask5vol': 3, 'open_close_ratio': 0.0, 'mid_last_diff': 0.09999999999990905, 'bid_ask_vol_ratio': 0.5714285306122479},
+                    {'last_price': 4017.6, 'mid': 4017.7, 'opened_position_qty': 0.0, 'closed_position_qty': 2.0, 'transacted_qty': 2.0, 'd_open_interest': -2, 'bid1': 4017.6, 'bid2': 4017.4, 'bid3': 4017.2, 'bid4': 4016.8, 'bid5': 4016.6, 'ask1': 4017.8, 'ask2': 4018.0, 'ask3': 4018.2, 'ask4': 4018.4, 'ask5': 4018.6, 'bid1vol': 1, 'bid2vol': 1, 'bid3vol': 1, 'bid4vol': 2, 'bid5vol': 2, 'ask1vol': 2, 'ask2vol': 3, 'ask3vol': 1, 'ask4vol': 3, 'ask5vol': 2, 'open_close_ratio': 0.0, 'mid_last_diff': 0.09999999999990905, 'bid_ask_vol_ratio': 0.636363578512402},
+                    {'last_price': 4017.8, 'mid': 4017.8, 'opened_position_qty': 0.0, 'closed_position_qty': 2.0, 'transacted_qty': 2.0, 'd_open_interest': -1, 'bid1': 4017.6, 'bid2': 4017.4, 'bid3': 4017.2, 'bid4': 4016.8, 'bid5': 4016.6, 'ask1': 4018.0, 'ask2': 4018.2, 'ask3': 4018.4, 'ask4': 4018.6, 'ask5': 4018.8, 'bid1vol': 2, 'bid2vol': 1, 'bid3vol': 1, 'bid4vol': 2, 'bid5vol': 1, 'ask1vol': 2, 'ask2vol': 1, 'ask3vol': 3, 'ask4vol': 2, 'ask5vol': 3, 'open_close_ratio': 0.0, 'mid_last_diff': 0.0, 'bid_ask_vol_ratio': 0.636363578512402},
+                    {'last_price': 4017.8, 'mid': 4017.8, 'opened_position_qty': 0.0, 'closed_position_qty': 0.0, 'transacted_qty': 0.0, 'd_open_interest': 0, 'bid1': 4017.6, 'bid2': 4017.4, 'bid3': 4017.2, 'bid4': 4016.8, 'bid5': 4016.6, 'ask1': 4018.0, 'ask2': 4018.2, 'ask3': 4018.4, 'ask4': 4018.6, 'ask5': 4018.8, 'bid1vol': 2, 'bid2vol': 1, 'bid3vol': 1, 'bid4vol': 2, 'bid5vol': 1, 'ask1vol': 2, 'ask2vol': 1, 'ask3vol': 2, 'ask4vol': 2, 'ask5vol': 3, 'open_close_ratio': 0.0, 'mid_last_diff': 0.0, 'bid_ask_vol_ratio': 0.699999930000007},
+                    {'last_price': 4017.8, 'mid': 4017.9, 'opened_position_qty': 0.0, 'closed_position_qty': 0.0, 'transacted_qty': 0.0, 'd_open_interest': 0, 'bid1': 4017.8, 'bid2': 4017.6, 'bid3': 4017.4, 'bid4': 4017.2, 'bid5': 4016.8, 'ask1': 4018.0, 'ask2': 4018.2, 'ask3': 4018.4, 'ask4': 4018.6, 'ask5': 4018.8, 'bid1vol': 1, 'bid2vol': 2, 'bid3vol': 1, 'bid4vol': 1, 'bid5vol': 2, 'ask1vol': 1, 'ask2vol': 1, 'ask3vol': 2, 'ask4vol': 2, 'ask5vol': 3, 'open_close_ratio': 0.0, 'mid_last_diff': 0.09999999999990905, 'bid_ask_vol_ratio': 0.7777776913580343},
+                    {'last_price': 4018.0, 'mid': 4018.0, 'opened_position_qty': 0.0, 'closed_position_qty': 1.0, 'transacted_qty': 1.0, 'd_open_interest': -1, 'bid1': 4017.8, 'bid2': 4017.6, 'bid3': 4017.4, 'bid4': 4017.2, 'bid5': 4016.8, 'ask1': 4018.2, 'ask2': 4018.4, 'ask3': 4018.6, 'ask4': 4018.8, 'ask5': 4019.6, 'bid1vol': 1, 'bid2vol': 2, 'bid3vol': 1, 'bid4vol': 1, 'bid5vol': 2, 'ask1vol': 1, 'ask2vol': 2, 'ask3vol': 2, 'ask4vol': 3, 'ask5vol': 3, 'open_close_ratio': 0.0, 'mid_last_diff': 0.0, 'bid_ask_vol_ratio': 0.636363578512402},
+                    {'last_price': 4018.0, 'mid': 4017.9, 'opened_position_qty': 0.0, 'closed_position_qty': 0.0, 'transacted_qty': 0.0, 'd_open_interest': 0, 'bid1': 4017.8, 'bid2': 4017.6, 'bid3': 4017.4, 'bid4': 4017.2, 'bid5': 4016.8, 'ask1': 4018.0, 'ask2': 4018.2, 'ask3': 4018.4, 'ask4': 4018.6, 'ask5': 4018.8, 'bid1vol': 1, 'bid2vol': 2, 'bid3vol': 1, 'bid4vol': 1, 'bid5vol': 2, 'ask1vol': 1, 'ask2vol': 3, 'ask3vol': 2, 'ask4vol': 2, 'ask5vol': 3, 'open_close_ratio': 0.0, 'mid_last_diff': -0.09999999999990905, 'bid_ask_vol_ratio': 0.636363578512402},
+                    {'last_price': 4018.0, 'mid': 4017.9, 'opened_position_qty': 1.0, 'closed_position_qty': 2.0, 'transacted_qty': 3.0, 'd_open_interest': 0, 'bid1': 4017.6, 'bid2': 4017.4, 'bid3': 4017.2, 'bid4': 4016.8, 'bid5': 4016.6, 'ask1': 4018.2, 'ask2': 4018.4, 'ask3': 4018.6, 'ask4': 4018.8, 'ask5': 4019.6, 'bid1vol': 1, 'bid2vol': 1, 'bid3vol': 1, 'bid4vol': 2, 'bid5vol': 1, 'ask1vol': 3, 'ask2vol': 2, 'ask3vol': 2, 'ask4vol': 3, 'ask5vol': 3, 'open_close_ratio': 0.499999750000125, 'mid_last_diff': -0.09999999999990905, 'bid_ask_vol_ratio': 0.4615384260355057},
+                    {'last_price': 4017.4, 'mid': 4017.5, 'opened_position_qty': 1.0, 'closed_position_qty': 0.0, 'transacted_qty': 1.0, 'd_open_interest': 1, 'bid1': 4017.2, 'bid2': 4016.8, 'bid3': 4016.6, 'bid4': 4016.4, 'bid5': 4016.2, 'ask1': 4017.8, 'ask2': 4018.0, 'ask3': 4018.2, 'ask4': 4018.4, 'ask5': 4018.6, 'bid1vol': 1, 'bid2vol': 2, 'bid3vol': 2, 'bid4vol': 3, 'bid5vol': 3, 'ask1vol': 1, 'ask2vol': 2, 'ask3vol': 3, 'ask4vol': 2, 'ask5vol': 2, 'open_close_ratio': 1000000.0, 'mid_last_diff': 0.09999999999990905, 'bid_ask_vol_ratio': 1.099999890000011},
+                    {'last_price': 4017.4, 'mid': 4017.5, 'opened_position_qty': 0.0, 'closed_position_qty': 0.0, 'transacted_qty': 0.0, 'd_open_interest': 0, 'bid1': 4017.2, 'bid2': 4016.8, 'bid3': 4016.6, 'bid4': 4016.4, 'bid5': 4016.2, 'ask1': 4017.8, 'ask2': 4018.0, 'ask3': 4018.2, 'ask4': 4018.4, 'ask5': 4018.6, 'bid1vol': 1, 'bid2vol': 2, 'bid3vol': 2, 'bid4vol': 3, 'bid5vol': 4, 'ask1vol': 1, 'ask2vol': 2, 'ask3vol': 3, 'ask4vol': 2, 'ask5vol': 2, 'open_close_ratio': 0.0, 'mid_last_diff': 0.09999999999990905, 'bid_ask_vol_ratio': 1.199999880000012},
+                    {'last_price': 4018.0, 'mid': 4017.9, 'opened_position_qty': 1.0, 'closed_position_qty': 2.0, 'transacted_qty': 3.0, 'd_open_interest': 0, 'bid1': 4017.6, 'bid2': 4017.4, 'bid3': 4017.2, 'bid4': 4016.8, 'bid5': 4016.6, 'ask1': 4018.2, 'ask2': 4018.4, 'ask3': 4018.6, 'ask4': 4018.8, 'ask5': 4019.6, 'bid1vol': 1, 'bid2vol': 1, 'bid3vol': 1, 'bid4vol': 2, 'bid5vol': 1, 'ask1vol': 3, 'ask2vol': 2, 'ask3vol': 2, 'ask4vol': 3, 'ask5vol': 3, 'open_close_ratio': 0.499999750000125, 'mid_last_diff': -0.09999999999990905, 'bid_ask_vol_ratio': 0.4615384260355057},
+                    {'last_price': 4017.4, 'mid': 4017.5, 'opened_position_qty': 1.0, 'closed_position_qty': 0.0, 'transacted_qty': 1.0, 'd_open_interest': 1, 'bid1': 4017.2, 'bid2': 4016.8, 'bid3': 4016.6, 'bid4': 4016.4, 'bid5': 4016.2, 'ask1': 4017.8, 'ask2': 4018.0, 'ask3': 4018.2, 'ask4': 4018.4, 'ask5': 4018.6, 'bid1vol': 1, 'bid2vol': 2, 'bid3vol': 2, 'bid4vol': 3, 'bid5vol': 3, 'ask1vol': 1, 'ask2vol': 2, 'ask3vol': 3, 'ask4vol': 2, 'ask5vol': 2, 'open_close_ratio': 1000000.0, 'mid_last_diff': 0.09999999999990905, 'bid_ask_vol_ratio': 1.099999890000011},
+                    {'last_price': 4017.4, 'mid': 4017.5, 'opened_position_qty': 0.0, 'closed_position_qty': 0.0, 'transacted_qty': 0.0, 'd_open_interest': 0, 'bid1': 4017.2, 'bid2': 4016.8, 'bid3': 4016.6, 'bid4': 4016.4, 'bid5': 4016.2, 'ask1': 4017.8, 'ask2': 4018.0, 'ask3': 4018.2, 'ask4': 4018.4, 'ask5': 4018.6, 'bid1vol': 1, 'bid2vol': 2, 'bid3vol': 2, 'bid4vol': 3, 'bid5vol': 4, 'ask1vol': 1, 'ask2vol': 2, 'ask3vol': 3, 'ask4vol': 2, 'ask5vol': 2, 'open_close_ratio': 0.0, 'mid_last_diff': 0.09999999999990905, 'bid_ask_vol_ratio': 1.199999880000012},
+                    {'last_price': 4017.4, 'mid': 4017.5, 'opened_position_qty': 0.0, 'closed_position_qty': 0.0, 'transacted_qty': 0.0, 'd_open_interest': 0, 'bid1': 4017.2, 'bid2': 4016.8, 'bid3': 4016.6, 'bid4': 4016.4, 'bid5': 4016.2, 'ask1': 4017.8, 'ask2': 4018.0, 'ask3': 4018.2, 'ask4': 4018.4, 'ask5': 4018.6, 'bid1vol': 3, 'bid2vol': 1, 'bid3vol': 2, 'bid4vol': 3, 'bid5vol': 4, 'ask1vol': 1, 'ask2vol': 2, 'ask3vol': 3, 'ask4vol': 2, 'ask5vol': 2, 'open_close_ratio': 0.0, 'mid_last_diff': 0.09999999999990905, 'bid_ask_vol_ratio': 1.299999870000013},
+                    {'last_price': 4017.2, 'mid': 4017.5, 'opened_position_qty': 0.0, 'closed_position_qty': 1.0, 'transacted_qty': 1.0, 'd_open_interest': 0, 'bid1': 4017.2, 'bid2': 4016.8, 'bid3': 4016.6, 'bid4': 4016.4, 'bid5': 4016.2, 'ask1': 4017.8, 'ask2': 4018.0, 'ask3': 4018.2, 'ask4': 4018.4, 'ask5': 4018.6, 'bid1vol': 2, 'bid2vol': 1, 'bid3vol': 2, 'bid4vol': 3, 'bid5vol': 4, 'ask1vol': 1, 'ask2vol': 2, 'ask3vol': 3, 'ask4vol': 2, 'ask5vol': 2, 'open_close_ratio': 0.0, 'mid_last_diff': 0.3000000000001819, 'bid_ask_vol_ratio': 1.199999880000012},
+                    {'last_price': 4017.2, 'mid': 4017.6, 'opened_position_qty': 0.0, 'closed_position_qty': 0.0, 'transacted_qty': 0.0, 'd_open_interest': 0, 'bid1': 4017.4, 'bid2': 4017.2, 'bid3': 4016.6, 'bid4': 4016.4, 'bid5': 4016.2, 'ask1': 4017.8, 'ask2': 4018.0, 'ask3': 4018.2, 'ask4': 4018.4, 'ask5': 4018.6, 'bid1vol': 1, 'bid2vol': 2, 'bid3vol': 1, 'bid4vol': 3, 'bid5vol': 4, 'ask1vol': 1, 'ask2vol': 2, 'ask3vol': 3, 'ask4vol': 2, 'ask5vol': 2, 'open_close_ratio': 0.0, 'mid_last_diff': 0.40000000000009095, 'bid_ask_vol_ratio': 1.099999890000011},
+                    {'last_price': 4017.2, 'mid': 4017.5, 'opened_position_qty': 0.0, 'closed_position_qty': 0.0, 'transacted_qty': 0.0, 'd_open_interest': 0, 'bid1': 4017.2, 'bid2': 4016.6, 'bid3': 4016.4, 'bid4': 4016.2, 'bid5': 4016.0, 'ask1': 4017.8, 'ask2': 4018.0, 'ask3': 4018.2, 'ask4': 4018.4, 'ask5': 4018.6, 'bid1vol': 2, 'bid2vol': 1, 'bid3vol': 3, 'bid4vol': 4, 'bid5vol': 2, 'ask1vol': 1, 'ask2vol': 2, 'ask3vol': 3, 'ask4vol': 2, 'ask5vol': 2, 'open_close_ratio': 0.0, 'mid_last_diff': 0.3000000000001819, 'bid_ask_vol_ratio': 1.199999880000012},
+                    {'last_price': 4017.8, 'mid': 4017.4, 'opened_position_qty': 2.0, 'closed_position_qty': 0.0, 'transacted_qty': 2.0, 'd_open_interest': 2, 'bid1': 4017.2, 'bid2': 4016.6, 'bid3': 4016.4, 'bid4': 4016.2, 'bid5': 4016.0, 'ask1': 4017.6, 'ask2': 4017.8, 'ask3': 4018.0, 'ask4': 4018.2, 'ask5': 4018.4, 'bid1vol': 2, 'bid2vol': 1, 'bid3vol': 3, 'bid4vol': 4, 'bid5vol': 2, 'ask1vol': 1, 'ask2vol': 1, 'ask3vol': 1, 'ask4vol': 1, 'ask5vol': 2, 'open_close_ratio': 2000000.0, 'mid_last_diff': -0.40000000000009095, 'bid_ask_vol_ratio': 1.9999996666667221},
+                    {'last_price': 4017.8, 'mid': 4017.5, 'opened_position_qty': 0.0, 'closed_position_qty': 0.0, 'transacted_qty': 0.0, 'd_open_interest': 0, 'bid1': 4017.4, 'bid2': 4017.2, 'bid3': 4016.6, 'bid4': 4016.4, 'bid5': 4016.2, 'ask1': 4017.6, 'ask2': 4018.0, 'ask3': 4018.2, 'ask4': 4018.4, 'ask5': 4018.6, 'bid1vol': 7, 'bid2vol': 2, 'bid3vol': 1, 'bid4vol': 3, 'bid5vol': 4, 'ask1vol': 1, 'ask2vol': 1, 'ask3vol': 1, 'ask4vol': 2, 'ask5vol': 2, 'open_close_ratio': 0.0, 'mid_last_diff': -0.3000000000001819, 'bid_ask_vol_ratio': 2.4285710816327026},
+                    {'last_price': 4017.4, 'mid': 4017.5, 'opened_position_qty': 0.0, 'closed_position_qty': 1.0, 'transacted_qty': 1.0, 'd_open_interest': 0, 'bid1': 4017.4, 'bid2': 4017.2, 'bid3': 4016.6, 'bid4': 4016.4, 'bid5': 4016.2, 'ask1': 4017.6, 'ask2': 4018.0, 'ask3': 4018.2, 'ask4': 4018.4, 'ask5': 4018.6, 'bid1vol': 6, 'bid2vol': 2, 'bid3vol': 1, 'bid4vol': 3, 'bid5vol': 4, 'ask1vol': 1, 'ask2vol': 1, 'ask3vol': 1, 'ask4vol': 2, 'ask5vol': 2, 'open_close_ratio': 0.0, 'mid_last_diff': 0.09999999999990905, 'bid_ask_vol_ratio': 2.28571395918372},
+                    {'last_price': 4017.6, 'mid': 4017.7, 'opened_position_qty': 0.0, 'closed_position_qty': 1.0, 'transacted_qty': 1.0, 'd_open_interest': 0, 'bid1': 4017.4, 'bid2': 4017.2, 'bid3': 4016.6, 'bid4': 4016.4, 'bid5': 4016.2, 'ask1': 4018.0, 'ask2': 4018.2, 'ask3': 4018.4, 'ask4': 4018.6, 'ask5': 4018.8, 'bid1vol': 6, 'bid2vol': 2, 'bid3vol': 1, 'bid4vol': 3, 'bid5vol': 4, 'ask1vol': 1, 'ask2vol': 1, 'ask3vol': 2, 'ask4vol': 2, 'ask5vol': 2, 'open_close_ratio': 0.0, 'mid_last_diff': 0.09999999999990905, 'bid_ask_vol_ratio': 1.9999997500000315},
+                    {'last_price': 4017.6, 'mid': 4017.7, 'opened_position_qty': 0.0, 'closed_position_qty': 0.0, 'transacted_qty': 0.0, 'd_open_interest': 0, 'bid1': 4017.4, 'bid2': 4017.2, 'bid3': 4016.6, 'bid4': 4016.4, 'bid5': 4016.2, 'ask1': 4018.0, 'ask2': 4018.2, 'ask3': 4018.4, 'ask4': 4018.6, 'ask5': 4018.8, 'bid1vol': 6, 'bid2vol': 2, 'bid3vol': 1, 'bid4vol': 3, 'bid5vol': 5, 'ask1vol': 2, 'ask2vol': 1, 'ask3vol': 2, 'ask4vol': 2, 'ask5vol': 2, 'open_close_ratio': 0.0, 'mid_last_diff': 0.09999999999990905, 'bid_ask_vol_ratio': 1.8888886790123691},
+                    {'last_price': 4017.6, 'mid': 4017.9, 'opened_position_qty': 0.0, 'closed_position_qty': 0.0, 'transacted_qty': 0.0, 'd_open_interest': 0, 'bid1': 4017.8, 'bid2': 4017.6, 'bid3': 4017.4, 'bid4': 4017.2, 'bid5': 4016.6, 'ask1': 4018.0, 'ask2': 4018.2, 'ask3': 4018.4, 'ask4': 4018.6, 'ask5': 4018.8, 'bid1vol': 1, 'bid2vol': 1, 'bid3vol': 6, 'bid4vol': 3, 'bid5vol': 2, 'ask1vol': 2, 'ask2vol': 1, 'ask3vol': 2, 'ask4vol': 2, 'ask5vol': 2, 'open_close_ratio': 0.0, 'mid_last_diff': 0.3000000000001819, 'bid_ask_vol_ratio': 1.4444442839506353},
+                    {'last_price': 4017.6, 'mid': 4017.9, 'opened_position_qty': 0.0, 'closed_position_qty': 0.0, 'transacted_qty': 0.0, 'd_open_interest': 0, 'bid1': 4017.8, 'bid2': 4017.6, 'bid3': 4017.4, 'bid4': 4017.2, 'bid5': 4016.6, 'ask1': 4018.0, 'ask2': 4018.2, 'ask3': 4018.4, 'ask4': 4018.6, 'ask5': 4018.8, 'bid1vol': 1, 'bid2vol': 1, 'bid3vol': 6, 'bid4vol': 3, 'bid5vol': 2, 'ask1vol': 2, 'ask2vol': 2, 'ask3vol': 2, 'ask4vol': 2, 'ask5vol': 2, 'open_close_ratio': 0.0, 'mid_last_diff': 0.3000000000001819, 'bid_ask_vol_ratio': 1.299999870000013},
+                    {'last_price': 4018.0, 'mid': 4018.0, 'opened_position_qty': 0.0, 'closed_position_qty': 1.0, 'transacted_qty': 1.0, 'd_open_interest': 0, 'bid1': 4017.8, 'bid2': 4017.6, 'bid3': 4017.4, 'bid4': 4017.2, 'bid5': 4016.6, 'ask1': 4018.2, 'ask2': 4018.4, 'ask3': 4018.6, 'ask4': 4018.8, 'ask5': 4019.6, 'bid1vol': 1, 'bid2vol': 1, 'bid3vol': 6, 'bid4vol': 3, 'bid5vol': 2, 'ask1vol': 2, 'ask2vol': 2, 'ask3vol': 2, 'ask4vol': 2, 'ask5vol': 3, 'open_close_ratio': 0.0, 'mid_last_diff': 0.0, 'bid_ask_vol_ratio': 1.1818180743801752},
+                    {'last_price': 4017.0, 'mid': 4018.0, 'opened_position_qty': 0.0, 'closed_position_qty': 0.0, 'transacted_qty': 0.0, 'd_open_interest': 0, 'bid1': 4017.8, 'bid2': 4017.6, 'bid3': 4017.4, 'bid4': 4017.2, 'bid5': 4017.0, 'ask1': 4018.2, 'ask2': 4018.4, 'ask3': 4018.6, 'ask4': 4018.8, 'ask5': 4019.6, 'bid1vol': 1, 'bid2vol': 1, 'bid3vol': 6, 'bid4vol': 3, 'bid5vol': 1, 'ask1vol': 3, 'ask2vol': 2, 'ask3vol': 2, 'ask4vol': 2, 'ask5vol': 3, 'open_close_ratio': 0.0, 'mid_last_diff': 0.0, 'bid_ask_vol_ratio': 0.9999999166666736},
+                    {'last_price': 4016.0, 'mid': 4018.0, 'opened_position_qty': 0.0, 'closed_position_qty': 0.0, 'transacted_qty': 0.0, 'd_open_interest': 0, 'bid1': 4017.8, 'bid2': 4017.6, 'bid3': 4017.4, 'bid4': 4017.2, 'bid5': 4017.0, 'ask1': 4018.2, 'ask2': 4018.4, 'ask3': 4018.6, 'ask4': 4018.8, 'ask5': 4019.6, 'bid1vol': 1, 'bid2vol': 1, 'bid3vol': 6, 'bid4vol': 3, 'bid5vol': 2, 'ask1vol': 3, 'ask2vol': 2, 'ask3vol': 2, 'ask4vol': 2, 'ask5vol': 3, 'open_close_ratio': 0.0, 'mid_last_diff': 0.0, 'bid_ask_vol_ratio': 1.083333243055563},
+                    {'last_price': 4015.0, 'mid': 4018.0, 'opened_position_qty': 0.0, 'closed_position_qty': 0.0, 'transacted_qty': 0.0, 'd_open_interest': 0, 'bid1': 4017.8, 'bid2': 4017.6, 'bid3': 4017.4, 'bid4': 4017.2, 'bid5': 4017.0, 'ask1': 4018.2, 'ask2': 4018.4, 'ask3': 4018.6, 'ask4': 4018.8, 'ask5': 4019.6, 'bid1vol': 1, 'bid2vol': 1, 'bid3vol': 6, 'bid4vol': 3, 'bid5vol': 2, 'ask1vol': 3, 'ask2vol': 2, 'ask3vol': 2, 'ask4vol': 2, 'ask5vol': 3, 'open_close_ratio': 0.0, 'mid_last_diff': 0.0, 'bid_ask_vol_ratio': 1.083333243055563},
+                    {'last_price': 4014.0, 'mid': 4018.0, 'opened_position_qty': 0.0, 'closed_position_qty': 0.0, 'transacted_qty': 0.0, 'd_open_interest': 0, 'bid1': 4017.8, 'bid2': 4017.6, 'bid3': 4017.4, 'bid4': 4017.2, 'bid5': 4017.0, 'ask1': 4018.2, 'ask2': 4018.4, 'ask3': 4018.6, 'ask4': 4018.8, 'ask5': 4019.6, 'bid1vol': 1, 'bid2vol': 1, 'bid3vol': 9, 'bid4vol': 3, 'bid5vol': 2, 'ask1vol': 3, 'ask2vol': 2, 'ask3vol': 2, 'ask4vol': 2, 'ask5vol': 3, 'open_close_ratio': 0.0, 'mid_last_diff': 0.0, 'bid_ask_vol_ratio': 1.3333332222222316},
+                    {'last_price': 4013.0, 'mid': 4018.0, 'opened_position_qty': 0.0, 'closed_position_qty': 0.0, 'transacted_qty': 0.0, 'd_open_interest': 0, 'bid1': 4017.8, 'bid2': 4017.6, 'bid3': 4017.4, 'bid4': 4017.2, 'bid5': 4017.0, 'ask1': 4018.2, 'ask2': 4018.4, 'ask3': 4018.6, 'ask4': 4018.8, 'ask5': 4019.6, 'bid1vol': 1, 'bid2vol': 1, 'bid3vol': 9, 'bid4vol': 3, 'bid5vol': 2, 'ask1vol': 3, 'ask2vol': 2, 'ask3vol': 2, 'ask4vol': 2, 'ask5vol': 3, 'open_close_ratio': 0.0, 'mid_last_diff': 0.0, 'bid_ask_vol_ratio': 1.3333332222222316},
+                    {'last_price': 4010.0, 'mid': 4017.9, 'opened_position_qty': 0.0, 'closed_position_qty': 0.0, 'transacted_qty': 0.0, 'd_open_interest': 0, 'bid1': 4017.8, 'bid2': 4017.6, 'bid3': 4017.4, 'bid4': 4017.2, 'bid5': 4017.0, 'ask1': 4018.0, 'ask2': 4018.2, 'ask3': 4018.4, 'ask4': 4018.6, 'ask5': 4018.8, 'bid1vol': 1, 'bid2vol': 1, 'bid3vol': 9, 'bid4vol': 3, 'bid5vol': 2, 'ask1vol': 1, 'ask2vol': 3, 'ask3vol': 2, 'ask4vol': 2, 'ask5vol': 2, 'open_close_ratio': 0.0, 'mid_last_diff': -0.09999999999990905, 'bid_ask_vol_ratio': 1.5999998400000162},
+
+        ];
+
+        // Reference to the dropdown element
+        const dropdown = document.getElementById("myDropdown");
+
+        // Iterate over each object in the data array
+        data.forEach(item => {
+            // Create a new option element
+            let option = document.createElement("option");
+
+            // Set the value and text for each option
+            option.value = item.last_price;
+            option.text = `Last Price: ${item.last_price}, Mid: ${item.mid}`;
+
+            // Add the option to the dropdown
+            dropdown.add(option);
+        });
+
+
+       // Add event listener to the submit button
+const submitButton = document.getElementById("submitButton");
+
+
+submitButton.addEventListener("click", async function() {
+    // Get the selected value from the dropdown
+    const selectedValue = dropdown.value;
+
+    // Find the corresponding object (row) based on the selected last_price
+    const selectedRow = data.find(item => item.last_price == selectedValue);
+
+    // Convert the selected row to DataFrame-like structure
+    const rowData = {
+        'last_price': selectedRow.last_price,
+        'mid': selectedRow.mid,
+        'opened_position_qty': selectedRow.opened_position_qty,
+        'closed_position_qty': selectedRow.closed_position_qty,
+        'transacted_qty': selectedRow.transacted_qty,
+        'd_open_interest': selectedRow.d_open_interest,
+        'bid1': selectedRow.bid1,
+        'bid2': selectedRow.bid2,
+        'bid3': selectedRow.bid3,
+        'bid4': selectedRow.bid4,
+        'bid5': selectedRow.bid5,
+        'ask1': selectedRow.ask1,
+        'ask2': selectedRow.ask2,
+        'ask3': selectedRow.ask3,
+        'ask4': selectedRow.ask4,
+        'ask5': selectedRow.ask5,
+        'bid1vol': selectedRow.bid1vol,
+        'bid2vol': selectedRow.bid2vol,
+        'bid3vol': selectedRow.bid3vol,
+        'bid4vol': selectedRow.bid4vol,
+        'bid5vol': selectedRow.bid5vol,
+        'ask1vol': selectedRow.ask1vol,
+        'ask2vol': selectedRow.ask2vol,
+        'ask3vol': selectedRow.ask3vol,
+        'ask4vol': selectedRow.ask4vol,
+        'ask5vol': selectedRow.ask5vol,
+        'open_close_ratio': selectedRow.open_close_ratio,
+        'mid_last_diff': selectedRow.mid_last_diff,
+        'bid_ask_vol_ratio': selectedRow.bid_ask_vol_ratio
+    };
+
+    // Log the DataFrame-like structure (for visualization purposes)
+    console.table(rowData);
+
+    // Send data to the backend API (wrap rowData inside an array)
+    try {
+        const response = await fetch('/predict', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify([rowData])  // Passing rowData as an array
+        });
+
+        // Get the result from the API response
+        const result = await response.json();
+
+        // Display the prediction result
+        if (result.prediction !== undefined) {
+            document.getElementById('output').innerHTML = `Prediction: ${result.prediction}`;
+        } else if (result.error) {
+            document.getElementById('output').innerHTML = `Error: ${result.error}`;
+        }
+    } catch (error) {
+        document.getElementById('output').innerHTML = `Error: ${error.message}`;
+    }
+});
+    </script>
+
+</body>
+</html>
+
+
