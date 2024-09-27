@@ -15,7 +15,7 @@ const Dropdown: React.FC<DropdownProps> = ({ onChange }) => {
 
     return (
         <select
-            className="bg-white p-3 border-2 border-black"
+            className=" p-3 border-2 border-black dark:border-gray-300"
             onChange={handleSelectChange}
         >
             {numbers.map((num) => (

@@ -1,34 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import sendToAPI from "../api/submit";
 import { data as importedData } from "../data/output"; // Import data
 import Dropdown from "./dropdown";
 import SubmitButton from "./submitButton";
 
 const headers = importedData[0];
+
 const ShowRow: React.FC = () => {
-    const [selectedValue, setSelectedValue] = useState<number | null>(null); // Track the selected dropdown value
+    const [isDarkMode, setIsDarkMode] = useState(
+        window.matchMedia("(prefers-color-scheme: dark)").matches
+    );
 
-    // Handle dropdown change
-    const handleChange = (value: number) => {
-        setSelectedValue(value); // Update state when a value is selected
-    };
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
-    // Function to handle form submission
-    const handleFormSubmit = (jsonData: string) => {
-        // Send the JSON data to the API
-        sendToAPI(jsonData);
-    };
+        setIsDarkMode(mediaQuery.matches);
+
+        const handleChange = (e: any) => setIsDarkMode(e.matches);
+        mediaQuery.addEventListener("change", handleChange);
+
+        return () => mediaQuery.removeEventListener("change", handleChange);
+    }, []);
+
+    const [selectedValue, setSelectedValue] = useState<number>(1);
+
+    const handleChange = (value: number) => setSelectedValue(value);
+
+    const handleFormSubmit = (jsonData: string) => sendToAPI(jsonData);
+
+    const getBorderColor = () => (isDarkMode ? "gray" : "black");
 
     return (
-        <div className="">
-            {/* Render the dropdown */}
+        <div>
             <Dropdown onChange={handleChange} />
 
-            <div className="flex w-full column justify-center">
-                {/* Display the corresponding row from importedData as a table */}
-                {selectedValue !== null && importedData[selectedValue] && (
+            <h3>Selected Row Data:</h3>
+            <div className="flex w-full column justify-center mb-2">
+                {importedData[selectedValue]?.length && (
                     <div style={{ maxWidth: "100%", overflowX: "auto" }}>
-                        <h3>Selected Row Data:</h3>
                         <table
                             style={{
                                 borderCollapse: "collapse",
@@ -41,7 +50,7 @@ const ShowRow: React.FC = () => {
                                         <th
                                             key={index}
                                             style={{
-                                                border: "1px solid black",
+                                                border: `1px solid ${getBorderColor()}`,
                                                 padding: "8px",
                                                 whiteSpace: "nowrap",
                                             }}
@@ -55,27 +64,20 @@ const ShowRow: React.FC = () => {
                                 <tr>
                                     {importedData[selectedValue].map(
                                         (item, index) => {
-                                            // Parse the item as a number
                                             const parsedItem = parseFloat(item);
-
                                             return (
                                                 <td
                                                     key={index}
                                                     style={{
-                                                        border: "1px solid black",
+                                                        border: `1px solid ${getBorderColor()}`,
                                                         padding: "8px",
                                                         whiteSpace: "nowrap",
                                                     }}
                                                 >
-                                                    {
-                                                        // Check if parsedItem is a valid number
-                                                        !isNaN(parsedItem) &&
-                                                        isFinite(parsedItem)
-                                                            ? parsedItem.toFixed(
-                                                                  2
-                                                              ) // Format the number to 2 decimal places
-                                                            : item // If it's not a valid number, display the original item
-                                                    }
+                                                    {!isNaN(parsedItem) &&
+                                                    isFinite(parsedItem)
+                                                        ? parsedItem.toFixed(2)
+                                                        : item}
                                                 </td>
                                             );
                                         }
@@ -83,24 +85,60 @@ const ShowRow: React.FC = () => {
                                 </tr>
                             </tbody>
                         </table>
-                        {/* Render the SubmitButton */}
-                        <SubmitButton
-                            headers={headers}
-                            values={importedData[selectedValue]}
-                            onSubmit={handleFormSubmit}
-                        />
                     </div>
                 )}
             </div>
+            <SubmitButton
+                headers={headers}
+                values={importedData[selectedValue]}
+                onSubmit={handleFormSubmit}
+            />
         </div>
     );
 };
+
+export default ShowRow;
+
+// import React, { useEffect, useState } from "react";
+// import sendToAPI from "../api/submit";
+// import { data as importedData } from "../data/output"; // Import data
+// import Dropdown from "./dropdown";
+// import SubmitButton from "./submitButton";
+
+// const headers = importedData[0];
 // const ShowRow: React.FC = () => {
+//     const [isDarkMode, setIsDarkMode] = useState(
+//         window.matchMedia("(prefers-color-scheme: dark)").matches
+//     );
+
+//     useEffect(() => {
+//         const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+//         // Set initial value
+//         setIsDarkMode(mediaQuery.matches);
+
+//         // Listen for changes
+//         const handleChange = (e: any) => setIsDarkMode(e.matches);
+//         mediaQuery.addEventListener("change", handleChange);
+
+//         // Cleanup listener on unmount
+//         return () => mediaQuery.removeEventListener("change", handleChange);
+//     }, []);
+
+//     // Set border color based on whether dark mode is enabled
+//     const borderColor = isDarkMode ? "gray" : "black";
+
 //     const [selectedValue, setSelectedValue] = useState<number | null>(null); // Track the selected dropdown value
 
 //     // Handle dropdown change
 //     const handleChange = (value: number) => {
 //         setSelectedValue(value); // Update state when a value is selected
+//     };
+
+//     // Function to handle form submission
+//     const handleFormSubmit = (jsonData: string) => {
+//         // Send the JSON data to the API
+//         sendToAPI(jsonData);
 //     };
 
 //     return (
@@ -111,7 +149,7 @@ const ShowRow: React.FC = () => {
 //             <div className="flex w-full column justify-center">
 //                 {/* Display the corresponding row from importedData as a table */}
 //                 {selectedValue !== null && importedData[selectedValue] && (
-//                     <div style={{ maxWidth: "90%", overflowX: "auto" }}>
+//                     <div style={{ maxWidth: "100%", overflowX: "auto" }}>
 //                         <h3>Selected Row Data:</h3>
 //                         <table
 //                             style={{
@@ -125,7 +163,7 @@ const ShowRow: React.FC = () => {
 //                                         <th
 //                                             key={index}
 //                                             style={{
-//                                                 border: "1px solid black",
+//                                                 border: `1px solid ${borderColor}`,
 //                                                 padding: "8px",
 //                                                 whiteSpace: "nowrap",
 //                                             }}
@@ -146,7 +184,7 @@ const ShowRow: React.FC = () => {
 //                                                 <td
 //                                                     key={index}
 //                                                     style={{
-//                                                         border: "1px solid black",
+//                                                         border: `1px solid ${borderColor}`,
 //                                                         padding: "8px",
 //                                                         whiteSpace: "nowrap",
 //                                                     }}
@@ -167,11 +205,95 @@ const ShowRow: React.FC = () => {
 //                                 </tr>
 //                             </tbody>
 //                         </table>
+//                         {/* Render the SubmitButton */}
+//                         <SubmitButton
+//                             headers={headers}
+//                             values={importedData[selectedValue]}
+//                             onSubmit={handleFormSubmit}
+//                         />
 //                     </div>
 //                 )}
 //             </div>
 //         </div>
 //     );
 // };
+// // const ShowRow: React.FC = () => {
+// //     const [selectedValue, setSelectedValue] = useState<number | null>(null); // Track the selected dropdown value
 
-export default ShowRow;
+// //     // Handle dropdown change
+// //     const handleChange = (value: number) => {
+// //         setSelectedValue(value); // Update state when a value is selected
+// //     };
+
+// //     return (
+// //         <div className="">
+// //             {/* Render the dropdown */}
+// //             <Dropdown onChange={handleChange} />
+
+// //             <div className="flex w-full column justify-center">
+// //                 {/* Display the corresponding row from importedData as a table */}
+// //                 {selectedValue !== null && importedData[selectedValue] && (
+// //                     <div style={{ maxWidth: "90%", overflowX: "auto" }}>
+// //                         <h3>Selected Row Data:</h3>
+// //                         <table
+// //                             style={{
+// //                                 borderCollapse: "collapse",
+// //                                 minWidth: "600px",
+// //                             }}
+// //                         >
+// //                             <thead>
+// //                                 <tr>
+// //                                     {headers.map((header, index) => (
+// //                                         <th
+// //                                             key={index}
+// //                                             style={{
+// //                                                 border: "1px solid black",
+// //                                                 padding: "8px",
+// //                                                 whiteSpace: "nowrap",
+// //                                             }}
+// //                                         >
+// //                                             {header}
+// //                                         </th>
+// //                                     ))}
+// //                                 </tr>
+// //                             </thead>
+// //                             <tbody>
+// //                                 <tr>
+// //                                     {importedData[selectedValue].map(
+// //                                         (item, index) => {
+// //                                             // Parse the item as a number
+// //                                             const parsedItem = parseFloat(item);
+
+// //                                             return (
+// //                                                 <td
+// //                                                     key={index}
+// //                                                     style={{
+// //                                                         border: "1px solid black",
+// //                                                         padding: "8px",
+// //                                                         whiteSpace: "nowrap",
+// //                                                     }}
+// //                                                 >
+// //                                                     {
+// //                                                         // Check if parsedItem is a valid number
+// //                                                         !isNaN(parsedItem) &&
+// //                                                         isFinite(parsedItem)
+// //                                                             ? parsedItem.toFixed(
+// //                                                                   2
+// //                                                               ) // Format the number to 2 decimal places
+// //                                                             : item // If it's not a valid number, display the original item
+// //                                                     }
+// //                                                 </td>
+// //                                             );
+// //                                         }
+// //                                     )}
+// //                                 </tr>
+// //                             </tbody>
+// //                         </table>
+// //                     </div>
+// //                 )}
+// //             </div>
+// //         </div>
+// //     );
+// // };
+
+// export default ShowRow;
