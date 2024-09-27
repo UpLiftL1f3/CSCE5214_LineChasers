@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import sendToAPI from "../api/submit";
 import { data as importedData } from "../data/output"; // Import data
 import Dropdown from "./dropdown";
 import SubmitButton from "./submitButton";
@@ -10,6 +9,8 @@ const ShowRow: React.FC = () => {
     const [isDarkMode, setIsDarkMode] = useState(
         window.matchMedia("(prefers-color-scheme: dark)").matches
     );
+
+    const [response, setResponse] = useState<string | null>(null);
 
     useEffect(() => {
         const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
@@ -26,7 +27,27 @@ const ShowRow: React.FC = () => {
 
     const handleChange = (value: number) => setSelectedValue(value);
 
-    const handleFormSubmit = (jsonData: string) => sendToAPI(jsonData);
+    // const handleFormSubmit = (jsonData: string) => sendToAPI(jsonData);
+    const handleFormSubmit = async (jsonData: string) => {
+        try {
+            // Assuming you have an API endpoint to handle the request
+            const res = await fetch("http://127.0.0.1:5000/predict", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: jsonData,
+            });
+
+            const data = await res.json();
+
+            // Update the response state with the result from the API
+            setResponse(data.prediction); // Assuming the API returns a field named `prediction`
+        } catch (error) {
+            console.error("Error submitting data:", error);
+            setResponse("Error occurred"); // In case of error
+        }
+    };
 
     const getBorderColor = () => (isDarkMode ? "gray" : "black");
 
@@ -36,7 +57,7 @@ const ShowRow: React.FC = () => {
 
             <h3>Selected Row Data:</h3>
             <div className="flex w-full column justify-center mb-2">
-                {importedData[selectedValue]?.length && (
+                {importedData[selectedValue] && (
                     <div style={{ maxWidth: "100%", overflowX: "auto" }}>
                         <table
                             style={{
@@ -46,7 +67,10 @@ const ShowRow: React.FC = () => {
                         >
                             <thead>
                                 <tr>
-                                    {headers.map((header, index) => (
+                                    {/* Dynamically render the headers from the keys of the object */}
+                                    {Object.keys(
+                                        importedData[selectedValue]
+                                    ).map((key, index) => (
                                         <th
                                             key={index}
                                             style={{
@@ -55,33 +79,36 @@ const ShowRow: React.FC = () => {
                                                 whiteSpace: "nowrap",
                                             }}
                                         >
-                                            {header}
+                                            {key}
                                         </th>
                                     ))}
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    {importedData[selectedValue].map(
-                                        (item, index) => {
-                                            const parsedItem = parseFloat(item);
-                                            return (
-                                                <td
-                                                    key={index}
-                                                    style={{
-                                                        border: `1px solid ${getBorderColor()}`,
-                                                        padding: "8px",
-                                                        whiteSpace: "nowrap",
-                                                    }}
-                                                >
-                                                    {!isNaN(parsedItem) &&
-                                                    isFinite(parsedItem)
-                                                        ? parsedItem.toFixed(2)
-                                                        : item}
-                                                </td>
-                                            );
-                                        }
-                                    )}
+                                    {/* Render the values of the object as a single row */}
+                                    {Object.values(
+                                        importedData[selectedValue]
+                                    ).map((item, colIndex) => {
+                                        const parsedItem = parseFloat(
+                                            item as unknown as string
+                                        ); // Ensure it's casted as a string before parsing
+                                        return (
+                                            <td
+                                                key={colIndex}
+                                                style={{
+                                                    border: `1px solid ${getBorderColor()}`,
+                                                    padding: "8px",
+                                                    whiteSpace: "nowrap",
+                                                }}
+                                            >
+                                                {!isNaN(parsedItem) &&
+                                                isFinite(parsedItem)
+                                                    ? parsedItem.toFixed(2)
+                                                    : item}
+                                            </td>
+                                        );
+                                    })}
                                 </tr>
                             </tbody>
                         </table>
@@ -89,10 +116,17 @@ const ShowRow: React.FC = () => {
                 )}
             </div>
             <SubmitButton
-                headers={headers}
-                values={importedData[selectedValue]}
+                selectedRow={importedData[selectedValue]}
                 onSubmit={handleFormSubmit}
             />
+            {response !== null && response !== undefined && (
+                <div className="mt-4">
+                    <h4>
+                        Prediction Result:{" "}
+                        <span className="font-bold">{response}</span>
+                    </h4>
+                </div>
+            )}
         </div>
     );
 };
