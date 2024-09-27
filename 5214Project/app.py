@@ -1,11 +1,15 @@
 from flask import Flask, request, render_template, jsonify
 import joblib
 import pandas as pd
+from flask_cors import CORS
 
 app = Flask(__name__)
 
+# Enable CORS for the app, allowing requests from specific origins
+CORS(app, resources={r"/predict": {"origins": "http://localhost:5173"}})
+
 # Load the pre-trained model (update the path to your model file)
-model = joblib.load(r'C:\Users\Dhruvil\Desktop\5214Project\random_forest_model.pkl')  # Replace with the correct model path
+model = joblib.load(r'RFmodel.pkl')  # Replace with the correct model path
 
 
 # Route for rendering the form in the frontend
@@ -22,7 +26,7 @@ def predict():
         data = request.json
 
         # Create a DataFrame from the received data
-        df = pd.DataFrame(data)
+        df = pd.DataFrame([data])
 
         # Make the prediction using the loaded model
         prediction = model.predict(df)
