@@ -6,12 +6,12 @@ echo "Creating virtual environment if it doesn't exist..."
 
 # Check if venv directory exists, if not create it
 if [ ! -d "venv" ]; then
-    python -m venv venv
+    python3 -m venv venv
 fi
 
 # Activate the virtual environment
 echo "Activating virtual environment..."
-source venv/Scripts/activate
+source venv/bin/activate
 
 # Install required Python packages
 echo "Installing required Python packages..."
@@ -20,15 +20,10 @@ pip install pandas numpy flask flask-cors scikit-learn
 
 # Start the Flask server in the background
 echo "Starting Flask backend..."
-(flask run &)  # Flask will run in the background
+FLASK_APP=app.py flask run &  # Run Flask in the background
 
-# Navigate to the frontend directory
-cd ../frontend || exit
+# No frontend needed; Flask will serve the HTML
+echo "Flask server is running, serving the HTML from templates directory."
 
-# Install frontend dependencies
-echo "Installing frontend dependencies..."
-npm install
-
-# Start the frontend server
-echo "Starting frontend..."
-npm run dev
+# Keep the shell open
+wait

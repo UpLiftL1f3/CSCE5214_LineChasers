@@ -26,7 +26,7 @@ def predict():
         data = request.json
 
         # Create a DataFrame from the received data
-        df = pd.DataFrame([data])
+        df = pd.DataFrame(data)
 
         # Make the prediction using the loaded model
         prediction = model.predict(df)

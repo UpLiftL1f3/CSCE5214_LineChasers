@@ -21,18 +21,8 @@ echo "Installing required packages..."
 pip install --upgrade pip
 pip install pandas numpy flask flask-cors scikit-learn
 
-# Start the Flask server
+# Start the Flask server to serve the HTML file
 echo "Starting backend..."
-FLASK_APP=app.py flask run &  # Run Flask in the background
+FLASK_APP=app.py flask run  # Serve the HTML file via Flask
 
-# Navigate to the frontend directory
-echo "Navigating to frontend directory..."
-cd ../frontend
-
-# Start the frontend (assuming you use npm or yarn)
-echo "Starting frontend..."
-npm install  # Ensure dependencies are installed
-npm run dev  # Run frontend
-
-# Wait for both processes to finish
-wait
+# No need to start a separate frontend now, Flask will serve your HTML file
