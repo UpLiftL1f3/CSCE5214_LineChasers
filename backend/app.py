@@ -6,7 +6,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 
 # Enable CORS for the app, allowing requests from specific origins
-CORS(app, resources={r"/predict": {"origins": "http://localhost:5173"}})
+CORS(app, resources={r"/predict": {"origins": "http://localhost:*"}})
 
 # Load the pre-trained model (update the path to your model file)
 model = joblib.load(r'RFmodel.pkl')  # Replace with the correct model path
