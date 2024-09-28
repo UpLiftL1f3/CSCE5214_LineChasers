@@ -47,7 +47,14 @@ This project contains both a back-end (Flask) and a front-end (React/Vite/etc.).
 
     - Make sure the `RFmodel.pkl` file (included in the project zip) is placed in the `backend` folder.
 
-3. **Run the project**:
+3. **Give execution permissions to the script**:
+
+    ```bash
+    chmod +x run-mac.sh
+
+    ```
+
+4. **Run the project**:
 
     - Double-click `run-windows.bat` or run it via Command Prompt:
         ```bash
