@@ -1,18 +1,42 @@
-# USE 'flask run' as a command in the terminal to run. It will then send data to default of http://127.0.0.1:5000/
-from flask import Flask, request, jsonify
-from flask_cors import CORS, cross_origin
+from flask import Flask, request, render_template, jsonify
+import joblib
+import pandas as pd
+from flask_cors import CORS
 
-# Run flask app and set up CORS for browser compatibility
 app = Flask(__name__)
-CORS(app)
 
-app.url_map.strict_slashes = False
+# Enable CORS for the app, allowing requests from specific origins
+CORS(app, resources={r"/predict": {"origins": "http://localhost:5173"}})
 
-# routes
-@app.route("/")
-@app.route("/home")
-def Home():
-    return "Are you getting this?"
+# Load the pre-trained model (update the path to your model file)
+model = joblib.load(r'RFmodel.pkl')  # Replace with the correct model path
 
-if __name__ == "__main__":
+
+# Route for rendering the form in the frontend
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
+# Route to handle API call for prediction
+@app.route('/predict', methods=['POST'])
+def predict():
+    try:
+        # Get data from the POST request
+        data = request.json
+
+        # Create a DataFrame from the received data
+        df = pd.DataFrame([data])
+
+        # Make the prediction using the loaded model
+        prediction = model.predict(df)
+
+        # Return the prediction result
+        return jsonify({'prediction': int(prediction[0])})
+
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
+
+if __name__ == '__main__':
     app.run(debug=True)
