@@ -8,8 +8,8 @@ This project contains both a back-end (Flask) and a front-end (React/Vite/etc.).
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/yourusername/yourproject.git
-    cd yourproject
+    git clone https://github.com/UpLiftL1f3/CSCE5214_LineChasers.git
+    cd CSCE5214_LineChasers.git
     ```
 2. **Move the `RFmodel.pkl` file into the `backend` folder**:
 
@@ -40,8 +40,8 @@ This project contains both a back-end (Flask) and a front-end (React/Vite/etc.).
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/yourusername/yourproject.git
-    cd yourproject
+    git clone https://github.com/UpLiftL1f3/CSCE5214_LineChasers.git
+    cd CSCE5214_LineChasers.git
     ```
 2. **Move the `RFmodel.pkl` file into the `backend` folder**:
 
