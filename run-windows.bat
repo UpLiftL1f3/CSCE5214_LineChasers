@@ -10,23 +10,27 @@ if not exist venv (
 )
 
 :: Activate the virtual environment
+echo Activating virtual environment...
 call venv\Scripts\activate
 
 :: Install required packages
-echo Installing required packages...
+echo Installing required Python packages...
 pip install --upgrade pip
 pip install pandas numpy flask flask-cors scikit-learn
 
-:: Start the Flask server in a new command window
-echo Starting backend...
-start cmd /k "flask run"
+:: Start the Flask server in the background
+echo Starting Flask backend...
+start "" /b flask run
 
 :: Navigate to the frontend directory
 cd ..\frontend
 
-:: Install frontend dependencies and start
-echo Starting frontend...
+:: Install frontend dependencies
+echo Installing frontend dependencies...
 npm install
-start cmd /k "npm run dev"
+
+:: Start the frontend server in the background
+echo Starting frontend...
+npm run dev
 
 pause
