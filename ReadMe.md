@@ -1,4 +1,4 @@
-# Project Name
+# Predicting Index Futures Price Movement
 
 This project contains both a back-end (Flask) and a front-end (React/Vite/etc.). Follow the instructions below to run the project on your operating system.
 
