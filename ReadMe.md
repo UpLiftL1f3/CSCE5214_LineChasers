@@ -56,11 +56,30 @@ This project contains both a back-end (Flask) and a front-end (React/Vite/etc.).
 
 4. **Run the project**:
 
-    - Double-click `run-windows.bat` or run it via Command Prompt:
+    - Run the script:
         ```bash
-        run-windows.bat
+        ./run-windows.sh
         ```
 
+    - Navigate to the `backend` folder:
+        ```bash
+        cd backend
+        ```
+
+    - Activate the virtual environment:
+        ```bash
+        source venv/Scripts/activate
+        ```
+
+    - Go back to the original folder:
+        ```bash
+        cd ..
+        ```
+
+    - Run the script again:
+        ```bash
+        ./run-windows.sh
+        ```
     This script will:
 
     - Create a Python virtual environment (if one doesn’t exist).
