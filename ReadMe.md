@@ -45,7 +45,7 @@ This project contains both a back-end (Flask) and a front-end (React/Vite/etc.).
     ```
 2. **Move the `RFmodel.pkl` file into the `backend` folder**:
 
-    - Make sure the `RFmodel.pkl` file (included in the project zip) is placed in the `backend` folder.
+    - Make sure the `RFmodel.pkl` file (generated from PickleFile.ipynb) is placed in the `backend` folder.
 
 3. **Give execution permissions to the script**:
 
@@ -88,6 +88,11 @@ This project contains both a back-end (Flask) and a front-end (React/Vite/etc.).
     - Install Node.js dependencies and start the front-end server in a new command window.
 
 ---
+
+## Dataset
+The dataset used was obtained from Kaggle:  
+Jim Zhang (Xiaotian). High Frequency Price Prediction of Index Futures. https://kaggle.com/competitions/caltech-cs155-2020, 2020. Kaggle.
+
 
 ## Notes
 
